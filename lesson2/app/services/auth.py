@@ -27,7 +27,7 @@ def authenticate_user(username: str, password: str):
     user = UsersRepo.get_user(username)
     if not user:
         return False
-    if not verify_password(password, user.password_encrypted):
+    if not verify_password(password, user.password_hash):
         return False
     return user
 

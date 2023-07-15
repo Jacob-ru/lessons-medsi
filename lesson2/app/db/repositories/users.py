@@ -4,7 +4,7 @@ from app.models.domain.user import User
 USERS = {
     'testuser': User(username='testuser',
                      fio='ИвановИванИванович',
-                     password_encrypted='$2b$12$VD.VbVWi/LBQoRgyPrqzWuxqYMs6Cy7mHq/hwKsESbRJXoIlU5Ad6')
+                     password_hash='$2b$12$VD.VbVWi/LBQoRgyPrqzWuxqYMs6Cy7mHq/hwKsESbRJXoIlU5Ad6')
 }
 
 class UsersRepo:
