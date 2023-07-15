@@ -1,0 +1,10 @@
+version: '3'
+services:
+  mongodb:
+    #image: arm64v8/mongo:latest
+    image: mongo:latest
+    env_file: .env.example
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb_data:/data/db
