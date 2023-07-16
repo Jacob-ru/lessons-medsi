@@ -16,3 +16,18 @@ class Order(BaseModel):
     @property
     def total_sum(self):
         return sum([x.price * x.quantity for x in self.items])
+
+    @property
+    def is_correct(self):
+        """
+        Проверка что заказ можно оформить
+        Для этого необходимо:
+        1) Cреди товаров не должно быть товара с нулевой ценой или нулевым количеством
+        2) Стоимость заказа ненулевая
+        """
+        for item in self.items:
+            if item.price and item.item_id:
+                continue
+            else:
+                return False
+        return True

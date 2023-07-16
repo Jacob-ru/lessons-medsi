@@ -5,6 +5,12 @@ from app.core import config
 from pymongo import MongoClient
 
 
+def init_mongo(app):
+    app.mongodb_client = MongoClient(config.MONGODB_CONNECTION)
+    app.database = app.mongodb_client[config.MONGODB_DB_NAME]
+    print("Connected to the MongoDB database!")
+
+
 def get_application() -> FastAPI:
     application: FastAPI = FastAPI(
         title=config.PROJECT_NAME,
@@ -16,9 +22,7 @@ def get_application() -> FastAPI:
 
     @application.on_event("startup")
     def startup_db_client():
-        app.mongodb_client = MongoClient(config.MONGODB_CONNECTION)
-        app.database = app.mongodb_client[config.MONGODB_DB_NAME]
-        print("Connected to the MongoDB database!")
+        init_mongo(app)
 
     @application.on_event("shutdown")
     def shutdown_db_client():
