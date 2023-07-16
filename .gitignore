@@ -7,3 +7,4 @@ venv/
 .DS_Store
 .env
 .pytest.env
+mongodb_data/
