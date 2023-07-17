@@ -5,10 +5,10 @@
 from unittest.mock import Mock
 
 import pytest
+from unittest.mock import patch
 
 from app.db.repositories.order import OrdersRepo
-from app.db.repositories.order import OrdersRepo
-from app.models.domain.order import Order, OrderItem
+from app.models.domain.order import Order
 from app.services.order import check_and_create_order, IncorrectOrderError
 from app.models.schemas.order import OrderRequest, OrderRequestItem
 
@@ -44,26 +44,22 @@ def test_create_order_error(monkeypatch):
     assert not create_order_mock.called
 
 
-
 @pytest.fixture()
-def prepare_db():
-    """Подготовка базы для использования в тестах"""
-    from app.main import app
-    from app.main import init_mongo
-    init_mongo(app)
-    yield
-    app.database['orders'].drop()
-
-@pytest.fixture()
-def add_orders_to_db(prepare_db):
+def add_orders_to_db():
     OrdersRepo().create_order(Order(username='test', items=[]))
 
-def test_get_orders_list(prepare_db, add_orders_to_db):
+def test_get_orders_list(add_orders_to_db):
+
     orders = OrdersRepo().get_orders('test')
     assert len(orders) == 1
 
 
-def test_get_orders_list_case_2(prepare_db, add_orders_to_db):
+@patch('app.db.repositories.order.OrdersRepo.log')
+def test_get_orders_with_heavy_func(add_orders_to_db):
+    """Тестируем патча функцию log которая хотим исключить из процесса проверки"""
+    orders = OrdersRepo().get_orders('test')
+
+def test_get_orders_list_case_2(add_orders_to_db):
     orders = OrdersRepo().get_orders('test')
     assert len(orders) == 1
 

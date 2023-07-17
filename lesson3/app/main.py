@@ -5,9 +5,9 @@ from app.core import config
 from pymongo import MongoClient
 
 
-def init_mongo(app):
+def init_mongo(app, db_prefix:str = ""):
     app.mongodb_client = MongoClient(config.MONGODB_CONNECTION)
-    app.database = app.mongodb_client[config.MONGODB_DB_NAME]
+    app.database = app.mongodb_client[f"{db_prefix}{config.MONGODB_DB_NAME}"]
     print("Connected to the MongoDB database!")
 
 
