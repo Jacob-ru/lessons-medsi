@@ -2,7 +2,7 @@ from app.models.domain.order import Order, OrderItem
 
 
 def test_total_sum_case_1():
-    """Заказ без товарой. Итоговая стоимость 0"""
+    """Заказ без товароd. Итоговая стоимость 0"""
     order = Order(
         username='test',
         items=[]
